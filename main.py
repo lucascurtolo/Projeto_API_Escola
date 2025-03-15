@@ -146,6 +146,11 @@ def excluir_professor(id):
             professor_to_delte = professor
             professores_db.remove(professor)
         return jsonify({"mensagem": "Professor excluído"})
+    
+@app.route("/professores_list", methods = ["DELETE"])
+def excluir_todos_professores():
+    professores_db.clear()
+    return jsonify({"mensagem": "Professores excluídos"})
 
 if __name__ == "__main__":
     app.run()
