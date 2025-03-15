@@ -130,5 +130,14 @@ def listar_professores(id):
             return jsonify({"id": professor.id, "nome": professor.nome, "disciplina": professor.disciplina})
     return jsonify({"message": "Professor não encontrado"})
  
+@app.route("/professores_list", methods = ["GET"])
+def listar_todos_professores():
+    professores_list = [professor.to_dict() for professor in professores_db]
+    qtd_professores = len(professores_db)
+    if qtd_professores == 0:
+        return jsonify({"mensagem": "Professores não encontrados"})
+    else:
+        return jsonify(professores_list), 200
+
 if __name__ == "__main__":
     app.run()
