@@ -103,7 +103,19 @@ def excluir_turma(id):
 def excluir_todas_turmas():
     turmas_db.clear()
     return jsonify({"mensagem": "Turmas excluídas"})
-            
+    
+@app.route("/turmas/<int:id>", methods = ["PUT"])
+def atualizar_turma(id):
+    qtd_turmas = len(turmas_db)
+    if qtd_turmas == 0:
+        return jsonify({"mensagem": "Turma não encontrada"})
+    else:
+        for turma in turmas_db:
+            if turma.id == id:
+                nome_turma = request.get_json()
+                turma.nome = nome_turma.get("nome", turma.nome)
+                return jsonify({"mensagem": "Turma atualizada"})
 
+            
 if __name__ == "__main__":
     app.run()
