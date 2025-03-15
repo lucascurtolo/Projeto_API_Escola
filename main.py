@@ -82,6 +82,15 @@ def listar_turmas(id):
             return jsonify({"id": turma.id, "nome": turma.nome, "professsor_id": turma.professor_id})
     return jsonify({"message": "Turma não encontrada"})
 
+@app.route("/turmas_list", methods = ["GET"])
+def listar_todas_turmas():
+    turmas_list = [turma.to_dict() for turma in turmas_db]
+    qtd_turmas = len(turmas_db)
+    if qtd_turmas == 0 :
+        return jsonify({"mensagem": "Turmas não encontradas"})
+    else:
+        return jsonify(turmas_list)
+
             
 
 if __name__ == "__main__":
