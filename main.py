@@ -116,6 +116,12 @@ def atualizar_turma(id):
                 turma.nome = nome_turma.get("nome", turma.nome)
                 return jsonify({"mensagem": "Turma atualizada"})
 
-            
+@app.route("/professores", methods = ["POST"])
+def criar_professor():
+    data = request.get_json()
+    professor = Professores(id = data["id"], nome = data["nome"], disciplina = data["disciplina"])
+    professores_db.append(professor)
+    return jsonify(professor.to_dict()), 201
+ 
 if __name__ == "__main__":
     app.run()
