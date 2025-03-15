@@ -32,6 +32,15 @@ def listar_alunos(id):
             return jsonify({"id": aluno.id, "nome": aluno.nome, "idade": aluno.idade})
     return jsonify({"message": "Aluno não encontrado"})
 
+@app.route("/alunos_list", methods = ["GET"])
+def listar_todos_alunos():
+    alunos_list = [aluno.to_dict() for aluno in alunos_db]
+    qtd_alunos = len(alunos_db)
+    if qtd_alunos == 0:
+        return jsonify({"mensagem": "Alunos não encontrados"})
+    else:
+        return jsonify(alunos_list), 200
+
 
 if __name__ == "__main__":
     app.run()
