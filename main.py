@@ -152,5 +152,17 @@ def excluir_todos_professores():
     professores_db.clear()
     return jsonify({"mensagem": "Professores excluídos"})
 
+@app.route("/professores/<int:id>", methods = ["PUT"])
+def atualizar_professor(id):
+    qtd_professores = len(professores_db)
+    if qtd_professores == 0:
+        return jsonify({"mensagem": "Professor não encontrado"})
+    else:
+        for professor in professores_db:
+            if professor.id ==id:
+                nome_professor = request.get_json()
+                professor.nome = nome_professor.get("nome", professor.nome)
+                return jsonify({"mensagem": "Professor Atualizado"})
+
 if __name__ == "__main__":
     app.run()
