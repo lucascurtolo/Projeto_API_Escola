@@ -41,6 +41,14 @@ def listar_todos_alunos():
     else:
         return jsonify(alunos_list), 200
 
+@app.route("/alunos/<int:id>", methods = ["DELETE"])
+def excluir_aluno(id):
+    for aluno in alunos_db:
+        if aluno.id == id:
+            aluno_to_delete = aluno
+            alunos_db.remove(aluno_to_delete)
+    return jsonify({"message": "Aluno Excluído"})
+
 
 if __name__ == "__main__":
     app.run()
