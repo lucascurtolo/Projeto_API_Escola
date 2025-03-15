@@ -67,5 +67,14 @@ def atualizar_aluno(id):
                 return jsonify({"mensagem": "Aluno atualizado"})
             
 
+
+@app.route("/turmas", methods = ["POST"])
+def criar_turma():
+    data = request.get_json()
+    turma = Turmas(id = data["id"], nome = data["nome"], professor_id = data["professor_id"])
+    turmas_db.append(turma)
+    return jsonify(turma.to_dict()),201
+            
+
 if __name__ == "__main__":
     app.run()
