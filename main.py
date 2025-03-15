@@ -54,6 +54,18 @@ def excluir_todos_alunos():
     alunos_db.clear()
     return jsonify({"mensagem": "Alunos removidos com sucesso"})
 
+@app.route("/alunos/<int:id>", methods = ["PUT"])
+def atualizar_aluno(id):
+    qtd_alunos = len(alunos_db)
+    if qtd_alunos == 0:
+        return jsonify({"mensagem": "Alunos não encontrados"})
+    else:
+        for aluno in alunos_db:
+            if aluno.id == id:
+                nome_aluno = request.get_json()
+                aluno.nome = nome_aluno.get("nome", aluno.nome)
+                return jsonify({"mensagem": "Aluno atualizado"})
+            
 
 if __name__ == "__main__":
     app.run()
