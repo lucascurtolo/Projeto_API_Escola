@@ -1,11 +1,11 @@
 class Professores:
-    def __init__(self, id, nome, materia):
+    def __init__(self, id, nome, disciplina):
         self.id = id
         self.nome = nome
-        self.materia = materia
+        self.disciplina = disciplina
 
     def to_dict(self):
-        return {"id": self.id, "nome": self.nome, "materia": self.materia}
+        return {"id": self.id, "nome": self.nome, "disciplina": self.disciplina}
     
 
 class Alunos:
