@@ -99,6 +99,10 @@ def excluir_turma(id):
             turmas_db.remove(turma_to_delete)
         return jsonify({"message": "Turma excluída"})    
 
+@app.route("/turmas_list", methods = ["DELETE"])
+def excluir_todas_turmas():
+    turmas_db.clear()
+    return jsonify({"mensagem": "Turmas excluídas"})
             
 
 if __name__ == "__main__":
