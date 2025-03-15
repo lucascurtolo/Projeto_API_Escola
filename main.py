@@ -122,6 +122,13 @@ def criar_professor():
     professor = Professores(id = data["id"], nome = data["nome"], disciplina = data["disciplina"])
     professores_db.append(professor)
     return jsonify(professor.to_dict()), 201
+
+@app.route("/professores/<int:id>", methods = ["GET"])
+def listar_professores(id):
+    for professor in professores_db:
+        if professor.id == id:
+            return jsonify({"id": professor.id, "nome": professor.nome, "disciplina": professor.disciplina})
+    return jsonify({"message": "Professor não encontrado"})
  
 if __name__ == "__main__":
     app.run()
