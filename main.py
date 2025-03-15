@@ -138,6 +138,14 @@ def listar_todos_professores():
         return jsonify({"mensagem": "Professores não encontrados"})
     else:
         return jsonify(professores_list), 200
+    
+@app.route("/professores/<int:id>", methods = ["DELETE"])
+def excluir_professor(id):
+    for professor in professores_db:
+        if professor.id == id:
+            professor_to_delte = professor
+            professores_db.remove(professor)
+        return jsonify({"mensagem": "Professor excluído"})
 
 if __name__ == "__main__":
     app.run()
