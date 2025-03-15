@@ -18,6 +18,13 @@ professores_db = [
     Professores(id = 5, nome = "Lucio", disciplina = "Lógica de Programação")
 ]
 
+@app.route("/alunos", methods = ["POST"])
+def criar_aluno():
+     data = request.get_json()
+     aluno = Alunos(id = data["id"], nome = data["nome"], idade = data["idade"])
+     alunos_db.append(aluno)
+     return jsonify(aluno.to_dict()), 201
+
 
 if __name__ == "__main__":
     app.run()
