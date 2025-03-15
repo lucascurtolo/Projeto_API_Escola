@@ -17,5 +17,24 @@ class Testes(unittest.TestCase):
 
         self.assertEqual(type(objeto_retornado), list) 
 
+
+    def test_01_cria_aluno(self):
+        aluno_data = {
+            "id": 10,
+            "nome": "Omena",
+            "idade": 19
+        }
+        response = self.client.post('/alunos', json=aluno_data)
+        self.assertEqual(response.status_code, 201)
+
+        resposta_json = response.get_json()
+        self.assertEqual(resposta_json["id"], aluno_data["id"])
+        self.assertEqual(resposta_json["nome"], aluno_data["nome"])
+        self.assertEqual(resposta_json["idade"], aluno_data["idade"])
+
+        self.assertIsNotNone(aluno_data)
+        self.assertEqual(aluno_data["nome"], aluno_data["nome"])
+        self.assertEqual(aluno_data["idade"], aluno_data["idade"])
+
 if __name__ == "__main__":
     unittest.main() 
