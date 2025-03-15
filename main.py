@@ -90,6 +90,14 @@ def listar_todas_turmas():
         return jsonify({"mensagem": "Turmas não encontradas"})
     else:
         return jsonify(turmas_list)
+    
+@app.route("/turmas/<int:id>", methods = ["DELETE"])
+def excluir_turma(id):
+    for turma in turmas_db:
+        if turma.id == id:
+            turma_to_delete = turma
+            turmas_db.remove(turma_to_delete)
+        return jsonify({"message": "Turma excluída"})    
 
             
 
