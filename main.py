@@ -49,6 +49,11 @@ def excluir_aluno(id):
             alunos_db.remove(aluno_to_delete)
     return jsonify({"message": "Aluno Excluído"})
 
+@app.route("/alunos_list", methods = ["DELETE"])
+def excluir_todos_alunos():
+    alunos_db.clear()
+    return jsonify({"mensagem": "Alunos removidos com sucesso"})
+
 
 if __name__ == "__main__":
     app.run()
