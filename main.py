@@ -74,6 +74,14 @@ def criar_turma():
     turma = Turmas(id = data["id"], nome = data["nome"], professor_id = data["professor_id"])
     turmas_db.append(turma)
     return jsonify(turma.to_dict()),201
+
+@app.route("/turmas/<int:id>", methods = ["GET"])
+def listar_turmas(id):
+    for turma in turmas_db:
+        if turma.id == id:
+            return jsonify({"id": turma.id, "nome": turma.nome, "professsor_id": turma.professor_id})
+    return jsonify({"message": "Turma não encontrada"})
+
             
 
 if __name__ == "__main__":
