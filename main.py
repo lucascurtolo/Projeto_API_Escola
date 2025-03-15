@@ -25,6 +25,13 @@ def criar_aluno():
      alunos_db.append(aluno)
      return jsonify(aluno.to_dict()), 201
 
+@app.route("/alunos/<int:id>", methods = ["GET"])
+def listar_alunos(id):
+    for aluno in alunos_db:
+        if aluno.id == id:
+            return jsonify({"id": aluno.id, "nome": aluno.nome, "idade": aluno.idade})
+    return jsonify({"message": "Aluno não encontrado"})
+
 
 if __name__ == "__main__":
     app.run()
