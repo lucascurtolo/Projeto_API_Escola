@@ -43,7 +43,16 @@ class Testes(unittest.TestCase):
         alunos_data = response.get_json()
 
         self.assertEqual(alunos_data['id'], 5)
-        self.assertEqual(alunos_data["nome"], "Marcelo" )        
+        self.assertEqual(alunos_data["nome"], "Marcelo" )
+
+        
+    def test_03_listar_alunos_inexistente(self):
+        response = self.client.get("/alunos/999")
+        self.assertEqual(response.status_code, 404)
+
+        erro_data = response.get_json()
+
+        self.assertEqual(erro_data["erro"], "Aluno não encontrado")        
 
 
 if __name__ == "__main__":
