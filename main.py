@@ -150,7 +150,7 @@ def excluir_professor(id):
 @app.route("/professores_list", methods = ["DELETE"])
 def excluir_todos_professores():
     professores_db.clear()
-    return jsonify({"mensagem": "Professores excluídos"})
+    return jsonify({"mensagem": "Professores excluídos"}), 204
 
 @app.route("/professores/<int:id>", methods = ["PUT"])
 def atualizar_professor(id):
