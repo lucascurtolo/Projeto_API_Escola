@@ -1,5 +1,6 @@
 import unittest
 from main import app 
+from main import alunos_db
 
 class Testes(unittest.TestCase):
     def setUp(self):
@@ -75,7 +76,21 @@ class Testes(unittest.TestCase):
         response = self.client.delete("/professores_list")
         self.assertEqual(response.status_code, 204)
 
-        self.assertEqual(response.get_data(), b'')  
+        self.assertEqual(response.get_data(), b'')
+
+    def test_07_deletar_aluno_por_id(self):
+        for aluno in alunos_db:
+            if aluno.id == id:
+                return None
+        self.assertIsNotNone(alunos_db, "Aluno com ID 5 não encontrado antes da exclusão")
+        response = self.client.delete("/alunos/5")
+        self.assertEqual(response.status_code, 204)
+
+        self.assertEqual(response.get_data(), b"")
+
+        aluno_removido = next((aluno for aluno in alunos_db if aluno.id == 5), None)
+        self.assertIsNone(aluno_removido, "Aluno com ID 5 não foi removido da lista após a exclusão")
+  
 
 
 
