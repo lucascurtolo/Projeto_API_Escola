@@ -46,7 +46,7 @@ class Testes(unittest.TestCase):
         self.assertEqual(alunos_data["nome"], "Marcelo" )
 
         
-    def test_03_listar_alunos_inexistente(self):
+    def test_03_listar_aluno_sem_id(self):
         response = self.client.get("/alunos/999")
         self.assertEqual(response.status_code, 404)
 
