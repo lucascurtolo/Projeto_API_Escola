@@ -35,6 +35,16 @@ class Testes(unittest.TestCase):
         self.assertIsNotNone(aluno_data)
         self.assertEqual(aluno_data["nome"], aluno_data["nome"])
         self.assertEqual(aluno_data["idade"], aluno_data["idade"])
+    
+    def test_02_listar_aluno_por_id(self):
+        response = self.client.get("/alunos/5")
+        self.assertEqual(response.status_code, 200)
+
+        alunos_data = response.get_json()
+
+        self.assertEqual(alunos_data['id'], 5)
+        self.assertEqual(alunos_data["nome"], "Marcelo" )        
+
 
 if __name__ == "__main__":
     unittest.main() 
