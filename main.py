@@ -30,7 +30,7 @@ def listar_alunos(id):
     for aluno in alunos_db:
         if aluno.id == id:
             return jsonify({"id": aluno.id, "nome": aluno.nome, "idade": aluno.idade})
-    return jsonify({"message": "Aluno não encontrado"})
+    return jsonify({"erro": "Aluno não encontrado"}), 404
 
 @app.route("/alunos_list", methods = ["GET"])
 def listar_todos_alunos():
