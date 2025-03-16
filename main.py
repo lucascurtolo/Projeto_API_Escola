@@ -37,7 +37,7 @@ def listar_todos_alunos():
     alunos_list = [aluno.to_dict() for aluno in alunos_db]
     qtd_alunos = len(alunos_db)
     if qtd_alunos == 0:
-        return jsonify({"mensagem": "Alunos não encontrados"})
+        return jsonify({"alunos": alunos_list})
     else:
         return jsonify(alunos_list), 200
 
@@ -52,7 +52,7 @@ def excluir_aluno(id):
 @app.route("/alunos_list", methods = ["DELETE"])
 def excluir_todos_alunos():
     alunos_db.clear()
-    return jsonify({"mensagem": "Alunos removidos com sucesso"})
+    return jsonify({"mensagem": "Alunos removidos com sucesso"}), 204
 
 @app.route("/alunos/<int:id>", methods = ["PUT"])
 def atualizar_aluno(id):
