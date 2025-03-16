@@ -7,15 +7,16 @@ class Testes(unittest.TestCase):
         self.client = app.test_client() 
 
     def test_0_alunos_retorna_lista(self):
-        response = self.client.get('/alunos_list') 
-        self.assertEqual(response.status_code, 200) 
-        
+        response = self.client.get('/alunos_list')
+        self.assertEqual(response.status_code, 200)
+
         try:
-            objeto_retornado = response.get_json() 
+            objeto_retornado = response.get_json()
         except ValueError:
             self.fail("Foi retornado outra coisa e não um JSON.")
 
-        self.assertEqual(type(objeto_retornado), list) 
+        
+        self.assertEqual(type(objeto_retornado["alunos"]), list)
 
 
     def test_01_cria_aluno(self):
@@ -52,7 +53,16 @@ class Testes(unittest.TestCase):
 
         erro_data = response.get_json()
 
-        self.assertEqual(erro_data["erro"], "Aluno não encontrado")        
+        self.assertEqual(erro_data["erro"], "Aluno não encontrado")
+
+    def test_04_apagar_lista_aluno(self):
+        response = self.client.delete("/alunos_list")
+        self.assertEqual(response.status_code, 204)  
+
+        
+        self.assertEqual(response.get_data(), b'')  
+
+
 
 
 if __name__ == "__main__":
