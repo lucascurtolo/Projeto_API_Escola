@@ -60,7 +60,15 @@ class Testes(unittest.TestCase):
         self.assertEqual(response.status_code, 204)  
 
         
-        self.assertEqual(response.get_data(), b'')  
+        self.assertEqual(response.get_data(), b'')
+
+    def test_05_listar_professor_sem_id(self):
+        response = self.client.get("/professores/999")
+        self.assertEqual(response.status_code, 404)
+
+        erro_data = response.get_json()
+
+        self.assertEqual(erro_data["message"], "Professor não encontrado")  
 
 
 
