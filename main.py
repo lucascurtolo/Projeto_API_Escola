@@ -128,7 +128,7 @@ def listar_professores(id):
     for professor in professores_db:
         if professor.id == id:
             return jsonify({"id": professor.id, "nome": professor.nome, "disciplina": professor.disciplina})
-    return jsonify({"message": "Professor não encontrado"})
+    return jsonify({"message": "Professor não encontrado"}), 404
  
 @app.route("/professores_list", methods = ["GET"])
 def listar_todos_professores():
