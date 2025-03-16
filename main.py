@@ -47,7 +47,7 @@ def excluir_aluno(id):
         if aluno.id == id:
             aluno_to_delete = aluno
             alunos_db.remove(aluno_to_delete)
-    return jsonify({"message": "Aluno Excluído"})
+    return jsonify({"message": "Aluno Excluído"}), 204
 
 @app.route("/alunos_list", methods = ["DELETE"])
 def excluir_todos_alunos():
