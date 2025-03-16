@@ -68,7 +68,14 @@ class Testes(unittest.TestCase):
 
         erro_data = response.get_json()
 
-        self.assertEqual(erro_data["message"], "Professor não encontrado")  
+        self.assertEqual(erro_data["message"], "Professor não encontrado")
+
+
+    def test_06_apagar_lista_professor(self):
+        response = self.client.delete("/professores_list")
+        self.assertEqual(response.status_code, 204)
+
+        self.assertEqual(response.get_data(), b'')  
 
 
 
