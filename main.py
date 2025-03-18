@@ -64,7 +64,7 @@ def atualizar_aluno(id):
             if aluno.id == id:
                 nome_aluno = request.get_json()
                 aluno.nome = nome_aluno.get("nome", aluno.nome)
-                return jsonify({"mensagem": "Aluno atualizado"})
+                return jsonify({"mensagem": "Aluno atualizado"}), 200
             
 
 
