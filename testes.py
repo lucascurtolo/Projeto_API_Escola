@@ -163,6 +163,11 @@ class Testes(unittest.TestCase):
         erro_data = response.get_json()
 
         self.assertEqual(erro_data["erro"], "Turma não encontrada")
+    
+    def test_13_apagar_lista_turma(self):
+        response = self.client.delete("/turmas_list")
+        self.assertEqual(response.status_code, 204)
+
 
     
     
