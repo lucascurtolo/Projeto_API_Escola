@@ -104,6 +104,31 @@ class Testes(unittest.TestCase):
         professor_removido = next((professor for professor in professores_db if professor.id == 5), None)
         self.assertIsNone(professor_removido, "professor com ID 5 não foi removido da lista após a exclusão")
 
+    def test_09_cria_professor(self):
+        professor_data = {
+            "id": 6,
+            "nome": "Julio",
+            "disciplina": "Linguagem de programação"
+        }
+        response = self.client.post('/professores', json=professor_data)
+        self.assertEqual(response.status_code, 201)
+
+        resposta_json = response.get_json()
+        self.assertEqual(resposta_json["id"], professor_data["id"])
+        self.assertEqual(resposta_json["nome"], professor_data["nome"])
+        self.assertEqual(resposta_json["disciplina"], professor_data["disciplina"])
+
+        self.assertIsNotNone(professor_data)
+        self.assertEqual(professor_data["nome"], professor_data["nome"])
+        self.assertEqual(professor_data["disciplina"], professor_data["disciplina"])
+    
+
+
+
+
+
+
+
 
 
 
