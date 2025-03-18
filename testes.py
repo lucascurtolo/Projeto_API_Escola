@@ -156,6 +156,15 @@ class Testes(unittest.TestCase):
         self.assertEqual(turma_data["nome"], turma_data["nome"])
         self.assertEqual(turma_data["professor_id"], turma_data["professor_id"])
     
+    def test_12_listar_turma_sem_id(self):
+        response = self.client.get("/turmas/999")
+        self.assertEqual(response.status_code, 404)
+
+        erro_data = response.get_json()
+
+        self.assertEqual(erro_data["erro"], "Turma não encontrada")
+
+    
     
 
 
