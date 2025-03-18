@@ -102,7 +102,7 @@ def excluir_turma(id):
 @app.route("/turmas_list", methods = ["DELETE"])
 def excluir_todas_turmas():
     turmas_db.clear()
-    return jsonify({"mensagem": "Turmas excluídas"})
+    return jsonify({"mensagem": "Turmas excluídas"}),204
     
 @app.route("/turmas/<int:id>", methods = ["PUT"])
 def atualizar_turma(id):
