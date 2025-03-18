@@ -80,7 +80,7 @@ def listar_turmas(id):
     for turma in turmas_db:
         if turma.id == id:
             return jsonify({"id": turma.id, "nome": turma.nome, "professsor_id": turma.professor_id})
-    return jsonify({"message": "Turma não encontrada"})
+    return jsonify({"erro": "Turma não encontrada"}), 404
 
 @app.route("/turmas_list", methods = ["GET"])
 def listar_todas_turmas():
