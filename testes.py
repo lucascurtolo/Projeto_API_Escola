@@ -121,6 +121,19 @@ class Testes(unittest.TestCase):
         self.assertIsNotNone(professor_data)
         self.assertEqual(professor_data["nome"], professor_data["nome"])
         self.assertEqual(professor_data["disciplina"], professor_data["disciplina"])
+
+    
+    def test_10_professor_retorna_lista(self):
+        response = self.client.get('/professores_list')
+        self.assertEqual(response.status_code, 200)
+
+        try:
+            objeto_retornado = response.get_json()
+        except ValueError:
+            self.fail("Foi retornado outra coisa e não um JSON.")
+
+        
+        self.assertEqual(type(objeto_retornado), list)
     
 
 
