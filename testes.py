@@ -136,6 +136,37 @@ class Testes(unittest.TestCase):
         self.assertEqual(type(objeto_retornado), list)
     
 
+    def teste_11_criar_turma(self):
+        turma_data = {
+            "id": 3,
+            "nome": "2B",
+            "professor_id": 5
+        }
+
+
+        response = self.client.post('/turmas', json=turma_data)
+        self.assertEqual(response.status_code, 201)
+
+        resposta_json = response.get_json()
+        self.assertEqual(resposta_json["id"], turma_data["id"])
+        self.assertEqual(resposta_json["nome"], turma_data["nome"])
+        self.assertEqual(resposta_json["professor_id"], turma_data["professor_id"])
+
+        self.assertIsNotNone(turma_data)
+        self.assertEqual(turma_data["nome"], turma_data["nome"])
+        self.assertEqual(turma_data["professor_id"], turma_data["professor_id"])
+    
+    
+
+
+     
+     
+     
+     
+     
+
+    
+
 
 
 
