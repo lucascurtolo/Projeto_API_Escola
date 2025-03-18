@@ -135,7 +135,7 @@ def listar_todos_professores():
     professores_list = [professor.to_dict() for professor in professores_db]
     qtd_professores = len(professores_db)
     if qtd_professores == 0:
-        return jsonify({"mensagem": "Professores não encontrados"})
+        return jsonify({"professores": professores_list})
     else:
         return jsonify(professores_list), 200
     
