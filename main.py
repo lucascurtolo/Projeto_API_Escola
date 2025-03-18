@@ -87,9 +87,10 @@ def listar_todas_turmas():
     turmas_list = [turma.to_dict() for turma in turmas_db]
     qtd_turmas = len(turmas_db)
     if qtd_turmas == 0 :
-        return jsonify({"mensagem": "Turmas não encontradas"})
+        return jsonify({"turmas": turmas_list})
     else:
-        return jsonify(turmas_list)
+        return jsonify(turmas_list), 200
+    
     
 @app.route("/turmas/<int:id>", methods = ["DELETE"])
 def excluir_turma(id):
