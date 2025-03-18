@@ -167,6 +167,20 @@ class Testes(unittest.TestCase):
     def test_13_apagar_lista_turma(self):
         response = self.client.delete("/turmas_list")
         self.assertEqual(response.status_code, 204)
+    
+    def test_14_turmas_retorna_lista(self):
+        response = self.client.get('/turmas_list')
+        self.assertEqual(response.status_code, 200)
+
+        try:
+            objeto_retornado = response.get_json()
+        except ValueError:
+            self.fail("Foi retornado outra coisa e não um JSON.")
+
+        
+        self.assertEqual(type(objeto_retornado["turmas"]), list)
+
+    
 
 
     
