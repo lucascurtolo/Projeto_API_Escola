@@ -164,7 +164,8 @@ def atualizar_professor(id):
             if professor.id ==id:
                 nome_professor = request.get_json()
                 professor.nome = nome_professor.get("nome", professor.nome)
-                return jsonify({"mensagem": "Professor Atualizado"})
+                return jsonify({"message": "Professor Atualizado"}), 200
+        return jsonify({"mensagem": "Professor não encontrado"}), 404    
 
 if __name__ == "__main__":
     app.run()
