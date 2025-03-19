@@ -219,7 +219,24 @@ class Testes(unittest.TestCase):
         self.assertEqual(dados_depois["nome"], "Andreia")
         self.assertEqual(dados_depois["disciplina"], "Soft Skill")
 
-    
+    def test_17_editar_nome_turma(self):
+        r_resetei = self.client.put('/turmas/5')
+        self.assertEqual(r_resetei.status_code, 200)
+
+        response = self.client.post('/turmas', json = {'nome': '3C', 'id': 10, 'professor_id': 15 })
+        self.assertEqual(response.status_code, 201)
+        r_antes = self.client.get('/turmas/10')
+        dados_antes = r_antes.json
+        print(r_antes)
+        self.assertEqual(dados_antes["nome"], "3C")
+        
+        response = self.client.put("/turmas/10", json={"nome":"3C"})
+        r_depois = self.client.get("/turmas/10")
+
+        dados_depois = r_depois.json
+        self.assertEqual(dados_depois["id"], 10)
+        self.assertEqual(dados_depois["nome"], "3C")
+        
 
 
     
