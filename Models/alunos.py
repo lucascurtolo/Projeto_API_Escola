@@ -33,7 +33,7 @@ class AlunosRepository:
 
 
     def excluir_aluno(self, id):
-        aluno = self.alunos.pop(id, None)
+        aluno = self.alunos.pop(id)
         if not aluno:
             raise ValueError("Não há alunos para excluir")
         return aluno
