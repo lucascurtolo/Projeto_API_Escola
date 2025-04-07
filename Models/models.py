@@ -9,7 +9,7 @@ class Professores:
     
 
 class Alunos:
-    def __init__(self, id, nome, idade):
+    def __init__(self, nome, idade, id = None):
         self.id = id
         self.nome = nome
         self.idade = idade

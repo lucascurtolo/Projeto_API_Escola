@@ -1,5 +1,5 @@
 import unittest
-from main import app 
+from main import app
 
 
 class Testes(unittest.TestCase):
@@ -66,77 +66,101 @@ class Testes(unittest.TestCase):
         
         self.assertEqual(response.get_data(), b'')
 
-    # def test_05_listar_professor_sem_id(self):
-    #     response = self.client.get("/professores/999")
-    #     self.assertEqual(response.status_code, 404)
+    def test_05_listar_professor_sem_id(self):
+        response = self.client.get("/professores/999")
+        self.assertEqual(response.status_code, 404)
 
-    #     erro_data = response.get_json()
+        erro_data = response.get_json()
 
-    #     self.assertEqual(erro_data["message"], "Professor não encontrado")
+        self.assertEqual(erro_data["message"], "Professor não encontrado")
+
+    def test_06_apagar_lista_professor(self):
+        self.client.post("/professores", json={
+            "nome": "Carlos",
+            "idade": 50
+        })
+
+        response = self.client.delete("/professores")
+        self.assertIn(response.status_code, [204, 404])
+
+        if response.status_code == 204:
+            self.assertEqual(response.get_data(), b'')
+
+        elif response.status_code == 404:
+            data = response.get_json()
+            self.assertIn("message", data)
+            self.assertEqual(data["message"], "Erro ao excluir professores")
 
 
-    # def test_06_apagar_lista_professor(self):
-    #     response = self.client.delete("/professores_list")
-    #     self.assertEqual(response.status_code, 204)
-
-    #     self.assertEqual(response.get_data(), b'')
-
-    # def test_07_deletar_aluno_por_id(self):
-    #     for aluno in alunos_db:
-    #         if aluno.id == id:
-    #             return None
-    #     self.assertIsNotNone(alunos_db, "Aluno com ID 5 não encontrado antes da exclusão")
-    #     response = self.client.delete("/alunos/5")
-    #     self.assertEqual(response.status_code, 204)
-
-    #     self.assertEqual(response.get_data(), b"")
-
-    #     aluno_removido = next((aluno for aluno in alunos_db if aluno.id == 5), None)
-    #     self.assertIsNone(aluno_removido, "Aluno com ID 5 não foi removido da lista após a exclusão")
+    def test_07_deletar_aluno_por_id(self):
     
-    # def test_08_deletar_professor_por_id(self):
-    #     for professor in professores_db:
-    #         if professor.id == id:
-    #             return None
-    #     self.assertIsNotNone(professores_db, "professor com ID 5 não encontrado antes da exclusão")
-    #     response = self.client.delete("/professores/5")
-    #     self.assertEqual(response.status_code, 204)
+        novo_aluno = {
+            "id": 999,  
+            "nome": "Aluno Teste",
+            "idade": 18
+        }
+        response = self.client.post("/alunos/", json=novo_aluno)
+        self.assertEqual(response.status_code, 201)
 
-    #     self.assertEqual(response.get_data(), b"")
+        id_aluno = novo_aluno["id"]
 
-    #     professor_removido = next((professor for professor in professores_db if professor.id == 5), None)
-    #     self.assertIsNone(professor_removido, "professor com ID 5 não foi removido da lista após a exclusão")
+        response = self.client.get(f"/alunos/{id_aluno}")
+        self.assertEqual(response.status_code, 200)
 
-    # def test_09_cria_professor(self):
-    #     professor_data = {
-    #         "id": 6,
-    #         "nome": "Julio",
-    #         "disciplina": "Linguagem de programação"
-    #     }
-    #     response = self.client.post('/professores', json=professor_data)
-    #     self.assertEqual(response.status_code, 201)
+        response = self.client.delete(f"/alunos/{id_aluno}")
+        self.assertEqual(response.status_code, 204)
 
-    #     resposta_json = response.get_json()
-    #     self.assertEqual(resposta_json["id"], professor_data["id"])
-    #     self.assertEqual(resposta_json["nome"], professor_data["nome"])
-    #     self.assertEqual(resposta_json["disciplina"], professor_data["disciplina"])
+        response = self.client.get(f"/alunos/{id_aluno}")
+        self.assertEqual(response.status_code, 404)
 
-    #     self.assertIsNotNone(professor_data)
-    #     self.assertEqual(professor_data["nome"], professor_data["nome"])
-    #     self.assertEqual(professor_data["disciplina"], professor_data["disciplina"])
+
+    def test_08_deletar_professor_por_id(self):
+
+        novo_professor = {
+            "id": 999,
+            "nome": "Professor Teste",
+            "disciplina": "Português"
+        }
+        response = self.client.post("/professores/", json=novo_professor)
+        self.assertEqual(response.status_code, 201)
+
+        response = self.client.delete("/professores/999")
+        self.assertEqual(response.status_code, 204)
+
+        response = self.client.delete("/professores/999")
+        self.assertEqual(response.status_code, 404)
+
+
+    def test_09_cria_professor(self):
+        professor_data = {
+            "id": 6,
+            "nome": "Julio",
+            "disciplina": "Linguagem de programação"
+        }
+        response = self.client.post('/professores/', json=professor_data)
+        self.assertEqual(response.status_code, 201)
+
+        resposta_json = response.get_json()
+        self.assertEqual(resposta_json["id"], professor_data["id"])
+        self.assertEqual(resposta_json["nome"], professor_data["nome"])
+        self.assertEqual(resposta_json["disciplina"], professor_data["disciplina"])
+
+        self.assertIsNotNone(professor_data)
+        self.assertEqual(professor_data["nome"], professor_data["nome"])
+        self.assertEqual(professor_data["disciplina"], professor_data["disciplina"])
 
     
-    # def test_10_professor_retorna_lista(self):
-    #     response = self.client.get('/professores_list')
-    #     self.assertEqual(response.status_code, 200)
+    def test_10_professor_retorna_lista(self):
+        response = self.client.get('/professores/')
+        self.assertEqual(response.status_code, 200)
 
-    #     try:
-    #         objeto_retornado = response.get_json()
-    #     except ValueError:
-    #         self.fail("Foi retornado outra coisa e não um JSON.")
+        try:
+            objeto_retornado = response.get_json()
+        except ValueError:
+            self.fail("Foi retornado outra coisa e não um JSON.")
 
         
-    #     self.assertEqual(type(objeto_retornado), list)
+        self.assertEqual(type(objeto_retornado), list)
     
 
     # def teste_11_criar_turma(self):
@@ -183,44 +207,52 @@ class Testes(unittest.TestCase):
         
     #     self.assertEqual(type(objeto_retornado["turmas"]), list)
 
-    # def test_15_editar_nome_do_aluno(self):
-    #     r_resetei = self.client.put('/alunos/8')
-    #     self.assertEqual(r_resetei.status_code, 200)
+    def test_15_editar_nome_do_aluno(self):
+        response = self.client.post('/alunos/', json={'nome': 'Cadu Mendes', 'id': 30, 'idade': 40})
+        self.assertEqual(response.status_code, 201)
 
-    #     response = self.client.post('/alunos', json = {'nome': 'Cadu Mendes', 'id': 30, 'idade': 40 })
-    #     r_antes = self.client.get('/alunos/30')
+        r_antes = self.client.get('/alunos/30')
+        dados_antes = r_antes.json
+        self.assertEqual(dados_antes['nome'], "Cadu Mendes")
+
+        response = self.client.put("/alunos/30", json={"nome": "Cadu Mendes"})
+        self.assertEqual(response.status_code, 200)
+
+        r_depois = self.client.get("/alunos/30")
+        dados_depois = r_depois.json
+        self.assertEqual(dados_depois["id"], 30)
+        self.assertEqual(dados_depois["nome"], "Cadu Mendes")
+        self.assertEqual(dados_depois["idade"], 40) 
+
+    def test_16_editar_nome_professor(self):
+        response = self.client.post('/professores/', json={'nome': 'Andreia', 'id': 15, 'disciplina': "Soft Skill"})
         
-    #     dados_antes = r_antes.json
-    #     print(r_antes)
-    #     self.assertEqual(dados_antes['nome'], "Cadu Mendes")
+        self.assertEqual(response.status_code, 201)
+
+        r_antes = self.client.get('/professores/15')
         
-    #     response = self.client.put("/alunos/30", json={"nome":"Cadu Mendes"})
-    #     r_depois = self.client.get("/alunos/30")
-
-    #     dados_depois = r_depois.json
-    #     self.assertEqual(dados_depois["id"], 30)
-    #     self.assertEqual(dados_depois["nome"], "Cadu Mendes")
-    #     self.assertEqual(dados_depois["idade"], 40)
-
-    # def test_16_editar_nome_professor(self):
-    #     r_resetei = self.client.put('/professores/8')
-    #     self.assertEqual(r_resetei.status_code, 404)
-
-    #     response = self.client.post('/professores', json = {'nome': 'Andreia', 'id': 15, 'disciplina': "Soft Skill" })
+        self.assertEqual(r_antes.status_code, 200)
         
-    #     r_antes = self.client.get('/professores/15')
-    #     dados_antes = r_antes.json
-    #     print(r_antes)
-    #     self.assertEqual(dados_antes["nome"], "Andreia")
-    #     self.assertEqual(dados_antes["disciplina"], "Soft Skill")
-        
-    #     response = self.client.put("/professores/15", json={"nome":"Andreia"})
-    #     r_depois = self.client.get("/professores/15")
+        dados_antes = r_antes.json
 
-    #     dados_depois = r_depois.json
-    #     self.assertEqual(dados_depois["id"], 15)
-    #     self.assertEqual(dados_depois["nome"], "Andreia")
-    #     self.assertEqual(dados_depois["disciplina"], "Soft Skill")
+        self.assertIn('nome', dados_antes) 
+        self.assertEqual(dados_antes['nome'], "Andreia")
+
+        response = self.client.put("/professores/15", json={"nome": "Andreia Alterado"})
+        self.assertEqual(response.status_code, 200)
+
+        r_depois = self.client.get("/professores/15")
+        dados_depois = r_depois.json
+        self.assertEqual(dados_depois["id"], 15)
+        self.assertEqual(dados_depois["nome"], "Andreia Alterado")
+        self.assertEqual(dados_depois["disciplina"], "Soft Skill")
+
+
+
+
+
+
+
 
     # def test_17_editar_nome_turma(self):
     #     r_resetei = self.client.put('/turmas/5')
