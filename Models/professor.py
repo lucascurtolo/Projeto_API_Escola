@@ -1,4 +1,4 @@
-from models import Professores
+from Models.models import Professores
 
 class ProfessoresRepository:
     def __init__(self):

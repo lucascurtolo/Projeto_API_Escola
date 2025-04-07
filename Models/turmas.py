@@ -1,4 +1,4 @@
-from models import turmas
+from Models.models import turmas
 
 class TurmasRepository:
     def _init_(self):
