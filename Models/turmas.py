@@ -1,7 +1,7 @@
-from Models.models import turmas
+from Models.models import Turmas
 
 class TurmasRepository:
-    def _init_(self):
+    def __init__(self):
         self.turmas = {}
 
     def criar_turma(self, turma):
@@ -30,15 +30,10 @@ class TurmasRepository:
         return turma
 
     def excluir_turma(self, id):
-        turma = self.turmas.pop(id)
+        turma = self.turmas.pop(id, None)
         if not turma:
             raise ValueError("Turma não encontrada para excluir.")
-        return turma
 
     def excluir_todas_turmas(self):
-        qtd_turmas = len(self.turmas)
-        if qtd_turmas == 0:
-            raise ValueError("Não há turmas para excluir.")
-        
         self.turmas.clear()
         return {"mensagem": "Todas as turmas foram excluídas."}
