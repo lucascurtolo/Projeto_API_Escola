@@ -1,7 +1,7 @@
 from Models.models import Alunos
   
 
-class AlunosRepository:
+class AlunosModel:
     def __init__(self):
         self.alunos = {}
 
@@ -20,7 +20,7 @@ class AlunosRepository:
     def listar_todos_alunos(self):
         return list(self.alunos.values())
 
-    def atualizar_aluno(self, id, nome=None, idade=None):
+    def atualizar_aluno(self, id, nome=None, idade=None, turma_id = None):
         aluno = self.alunos.get(id)
         if not aluno:
             raise ValueError("Aluno não encontrado.")
@@ -28,6 +28,10 @@ class AlunosRepository:
             aluno.nome = nome
         if idade:
             aluno.idade = idade
+        if turma_id: 
+            aluno.turma_id = turma_id
+        if id:
+            aluno.id = id
         return aluno
 
     def excluir_aluno(self, id):

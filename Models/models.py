@@ -3,19 +3,21 @@ class Professores:
         self.id = id
         self.nome = nome
         self.disciplina = disciplina
+        
 
     def to_dict(self):
         return {"id": self.id, "nome": self.nome, "disciplina": self.disciplina}
     
 
 class Alunos:
-    def __init__(self, nome, idade, id = None):
+    def __init__(self, nome, idade, turma_id, id = None):
         self.id = id
         self.nome = nome
         self.idade = idade
+        self.turma_id = turma_id
 
     def to_dict(self):
-        return{"id": self.id, "nome": self.nome, "idade": self.idade}
+        return{"id": self.id, "nome": self.nome, "idade": self.idade, "turma_id": self.turma_id}
     
 
 class Turmas:

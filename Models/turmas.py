@@ -1,6 +1,6 @@
 from Models.models import Turmas
 
-class TurmasRepository:
+class TurmasModel:
     def __init__(self):
         self.turmas = {}
 

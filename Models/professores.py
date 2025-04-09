@@ -1,6 +1,6 @@
 from Models.models import Professores
 
-class ProfessoresRepository:
+class ProfessoresModel:
     def __init__(self):
         self.professores = {}
     
