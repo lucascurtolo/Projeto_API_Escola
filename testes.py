@@ -21,7 +21,8 @@ class Testes(unittest.TestCase):
         aluno_data = {
             "id": 10,
             "nome": "Omena",
-            "idade": 19
+            "idade": 19,
+            "turma_id": 5
         }
         response = self.client.post('/alunos/', json=aluno_data)
         self.assertEqual(response.status_code, 201)
@@ -39,7 +40,8 @@ class Testes(unittest.TestCase):
         aluno_data = {
             "id": 5,
             "nome": "Marcelo",
-            "idade": 25
+            "idade": 25,
+            "turma_id": 4
         }
         self.client.post("/alunos/", json=aluno_data)
 
@@ -97,7 +99,8 @@ class Testes(unittest.TestCase):
         novo_aluno = {
             "id": 999,  
             "nome": "Aluno Teste",
-            "idade": 18
+            "idade": 18,
+            "turma_id": 1
         }
         response = self.client.post("/alunos/", json=novo_aluno)
         self.assertEqual(response.status_code, 201)
@@ -208,7 +211,7 @@ class Testes(unittest.TestCase):
         self.assertEqual(type(objeto_retornado), list)
 
     def test_15_editar_nome_do_aluno(self):
-        response = self.client.post('/alunos/', json={'nome': 'Cadu Mendes', 'id': 30, 'idade': 40})
+        response = self.client.post('/alunos/', json={'nome': 'Cadu Mendes', 'id': 30, 'idade': 40, 'turma_id': 6})
         self.assertEqual(response.status_code, 201)
 
         r_antes = self.client.get('/alunos/30')
