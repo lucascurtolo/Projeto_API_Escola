@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
-from Models.professores import ProfessoresRepository, Professores
+from Models.professores import ProfessoresModel, Professores
 
 professores_blueprint = Blueprint('professores', __name__)
-professores_repo = ProfessoresRepository()
+professores_repo = ProfessoresModel()
 
 @professores_blueprint.route("/", methods=["POST"])
 def criar_professor_route():
