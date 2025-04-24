@@ -1,8 +1,8 @@
 from flask import Blueprint, request, jsonify
-from Models.turmas import TurmasModel, Turmas
+from Models.turmas import Turmas_Repository, Turmas
 
 turmas_blueprint = Blueprint('turmas', __name__)
-turmas_repo = TurmasModel()
+turmas_repo = Turmas_Repository()
 
 @turmas_blueprint.route("/", methods = ["POST"])
 def criar_turma_route():

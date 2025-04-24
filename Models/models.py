@@ -1,9 +1,9 @@
-from config import db
+from Config import db
 
 class Professores(db.Model):
-    id = db.Collumn(db.Integer, primary_key=True)
-    nome = db.Collumn(db.String(100))
-    disciplina = db.Collumn(db.Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100))
+    disciplina = db.Column(db.Integer)
     
     def __init__(self, id, nome, disciplina):
         self.id = id
@@ -16,10 +16,10 @@ class Professores(db.Model):
     
 
 class Alunos(db.Model):
-    id = db.Collumn(db.Integer, primary_key=True)
-    nome = db.Collumn(db.String(100))
-    idade = db.Collumn(db.Integer)
-    turma_id = db.Collumn(db.Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100))
+    idade = db.Column(db.Integer)
+    turma_id = db.Column(db.Integer)
 
     def __init__(self, nome, idade, turma_id, id = None):
         self.id = id
@@ -32,9 +32,9 @@ class Alunos(db.Model):
     
 
 class Turmas(db.Model):
-    id = db.Collumn(db.Integer, primary_key=True)
-    nome = db.Collumn(db.String(100))
-    professor_id = db.Collumn(db.Integer)
+    id = db.Column(db.Integer, primary_key=True)
+    nome = db.Column(db.String(100))
+    professor_id = db.Column(db.Integer)
 
     def __init__(self, id, nome, professor_id):
         self.id = id

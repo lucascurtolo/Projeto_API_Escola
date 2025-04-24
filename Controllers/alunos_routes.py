@@ -1,20 +1,20 @@
 from flask import Blueprint, request, jsonify
-from Models.alunos import AlunosModel
-from Models.alunos import AlunosModel, Alunos
+from Models.alunos import Alunos_Repository
+from Models.alunos import Alunos_Repository, Alunos
 
 
 alunos_blueprint = Blueprint('alunos', __name__)
-alunos_repo = AlunosModel()
+alunos_repo = Alunos_Repository()
 
 @alunos_blueprint.route("/", methods=["POST"])
 def criar_aluno_route():
     data = request.get_json()
     try:
-        aluno = Alunos(**data)
-        alunos_repo.criar_aluno(aluno)
+        aluno = alunos_repo.criar_aluno(data['nome'], data['idade'], data['turma_id'])
         return jsonify(aluno.to_dict()), 201
     except ValueError as e:
         return jsonify({"erro": str(e)}), 400
+
 
 @alunos_blueprint.route("/<int:id>", methods=["GET"])
 def listar_aluno_route(id):
@@ -59,4 +59,5 @@ def atualizar_aluno_route(id):
         return jsonify(aluno.to_dict())
     except ValueError:
         return jsonify({"message": "Aluno não encontrado"}), 404
+
     

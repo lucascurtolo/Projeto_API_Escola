@@ -2,15 +2,15 @@ from Models.models import Alunos
 from Config import db
   
 
-class AlunosModel:
+class Alunos_Repository:
     def __init__(self):
         pass
 
     def criar_aluno(self, nome, idade, turma_id=None):
         try:
-            aluno_existente = Alunos.query.filter_by(nome=nome).first()
+            aluno_existente = Alunos.query.filter_by(id=id).first()
             if aluno_existente:
-                raise ValueError("Aluno com este nome já existe.")
+                raise ValueError("Aluno com este id já existe.")
 
             novo_aluno = Alunos(nome=nome, idade=idade, turma_id=turma_id)
             db.session.add(novo_aluno)
@@ -23,7 +23,7 @@ class AlunosModel:
 
     def listar_aluno(self, id):
         try:
-            aluno = Alunos.query.filter_by(id=id).one()  
+            aluno = Alunos.query.filter_by(id=id).first()  
             return aluno
         except ValueError:
             raise ValueError("Aluno não encontrado")
