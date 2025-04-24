@@ -1,4 +1,5 @@
 from Config import app
+import os 
 
 from Controllers.alunos_routes import alunos_blueprint
 from Controllers.turmas_routes import turmas_blueprint
