@@ -43,7 +43,7 @@ class Turmas_Repository:
 
 
     def excluir_turma(self, id):
-       turma = Turmas.query.filter_by(id = id).first
+       turma = Turmas.query.filter_by(id = id).first()
        if turma:
            db.session.delete(turma)
            db.session.commit()
