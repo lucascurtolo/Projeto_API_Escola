@@ -1,4 +1,0 @@
-5 + 5  igual a 105 + 5  igual a 10soma_bloco_de_notas.txt
-5 + 5  igual a 10soma_bloco_de_not
-5 + 5  igual a 105 + 5  igual a 10soma_bloco_de_notas_20250404_214440.txt
-5 + 5  igual a 10

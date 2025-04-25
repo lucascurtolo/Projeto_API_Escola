@@ -22,15 +22,15 @@ def criar_turma_route():
 @turmas_blueprint.route("/<int:id>", methods=["GET"])
 def listar_turma_route(id):
     try:
-        turma = turmas_repo.listar_turma(id)
+        turma = Turmas.query.filter_by(id=id).first()
 
         if turma is None:
-            return jsonify({"erro": "Turma não encontrada"}), 404
+            return jsonify({"erro": "Turma não encontrada"}), 404  # Retorna um erro caso a turma não exista
 
-        return jsonify(turma.to_dict()), 200
+        return jsonify(turma.to_dict()), 200  # Retorna os dados da turma se encontrada
 
-    except Exception as e:
-        return jsonify({"erro": f"Erro ao buscar turma: {str(e)}"}), 400
+    except ValueError:
+        return jsonify({"erro": "Erro ao buscar turma"}), 400
 
 
 
@@ -39,21 +39,15 @@ def listar_todas_turmas_route():
     try:
         turmas = turmas_repo.listar_todas_turmas()
 
-        # Garante que há turmas
+        # Se não houver turmas, retorna uma lista vazia com status 200
         if not turmas:
-            return jsonify({"message": "Nenhuma turma encontrada"}), 404
+            return jsonify([]), 200  # Retorna uma lista vazia
 
-        # Filtra apenas turmas válidas e converte pra dict
-        turmas_formatadas = []
-        for turma in turmas:
-            if turma is not None:
-                turmas_formatadas.append(turma.to_dict())
+        # Caso contrário, retorna as turmas
+        return jsonify([turma.to_dict() for turma in turmas if turma is not None]), 200
 
-        return jsonify(turmas_formatadas), 200
-
-    except Exception as e:
-        # Captura qualquer erro, inclusive os que não são ValueError
-        return jsonify({"message": f"Erro ao listar turmas: {str(e)}"}), 400
+    except ValueError:
+        return jsonify({"erro": "Erro ao listar turmas"}), 400
 
 
 

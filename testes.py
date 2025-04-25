@@ -200,26 +200,15 @@ class Testes(unittest.TestCase):
     
     def test_14_turmas_retorna_lista(self):
         response = self.client.get('/turmas/')
-        
-        # Tenta pegar a resposta como JSON
+        self.assertEqual(response.status_code, 200)
+
         try:
             objeto_retornado = response.get_json()
         except ValueError:
             self.fail("Foi retornado outra coisa e não um JSON.")
+
         
-        # Se for 404, verifica se veio o dicionário com a mensagem esperada
-        if response.status_code == 404:
-            self.assertIsInstance(objeto_retornado, dict)
-            self.assertIn("message", objeto_retornado)
-            self.assertEqual(objeto_retornado["message"], "Nenhuma turma encontrada")
-        
-        # Se for 200, verifica se veio uma lista
-        elif response.status_code == 200:
-            self.assertIsInstance(objeto_retornado, list)
-        
-        # Se for qualquer outra coisa, o teste falha
-        else:
-            self.fail(f"Status code inesperado: {response.status_code}")
+        self.assertEqual(type(objeto_retornado), list)
 
     # def test_15_editar_nome_do_aluno(self):
     #     response = self.client.post('/alunos/', json={'nome': 'Cadu Mendes', 'id': 30, 'idade': 40, 'turma_id': 6})
@@ -269,36 +258,20 @@ class Testes(unittest.TestCase):
 
 
     def test_17_editar_nome_turma(self):
-        response = self.client.post('/turmas/', json={
-            'id': 10,
-            'nome': '3C',
-            'aluno_ra': 1,
-            'professor_id': 15,
-            'materia_id': 2
-        })
-
-        print("Resposta POST:", response.status_code, response.get_json())
-
+        response = self.client.post('/turmas/', json = {'nome': '3C', 'id': 10, 'professor_id': 15 })
         self.assertEqual(response.status_code, 201)
 
         r_antes = self.client.get('/turmas/10')
-        dados_antes = r_antes.get_json()
-
-        print("Dados antes:", dados_antes) 
-
-        self.assertIn("nome", dados_antes)
+        dados_antes = r_antes.json
         self.assertEqual(dados_antes["nome"], "3C")
-
         
-        response = self.client.put("/turmas/10", json={"nome": "3D"})
+        response = self.client.put("/turmas/10", json={"nome":"3D"})
         self.assertEqual(response.status_code, 200)
 
         r_depois = self.client.get("/turmas/10")
-        dados_depois = r_depois.get_json()
-
+        dados_depois = r_depois.json
         self.assertEqual(dados_depois["id"], 10)
         self.assertEqual(dados_depois["nome"], "3D")
-
         
 
 
