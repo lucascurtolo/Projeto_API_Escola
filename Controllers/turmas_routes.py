@@ -33,7 +33,6 @@ def listar_turma_route(id):
         return jsonify({"erro": "Erro ao buscar turma"}), 400
 
 
-
 @turmas_blueprint.route("/", methods=["GET"])
 def listar_todas_turmas_route():
     try:
