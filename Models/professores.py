@@ -22,7 +22,7 @@ class Professores_Repository:
     def listar_professor(self, id):
         professor = Professores.query.filter_by(id=id).first()
         if not professor:
-            raise NoData("Professor não encontrado")
+            raise ValueError("Professor não encontrado")
         return professor
             
     

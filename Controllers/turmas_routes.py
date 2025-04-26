@@ -25,9 +25,9 @@ def listar_turma_route(id):
         turma = Turmas.query.filter_by(id=id).first()
 
         if turma is None:
-            return jsonify({"erro": "Turma não encontrada"}), 404  # Retorna um erro caso a turma não exista
+            return jsonify({"erro": "Turma não encontrada"}), 404 
 
-        return jsonify(turma.to_dict()), 200  # Retorna os dados da turma se encontrada
+        return jsonify(turma.to_dict()), 200  
 
     except ValueError:
         return jsonify({"erro": "Erro ao buscar turma"}), 400
@@ -39,11 +39,9 @@ def listar_todas_turmas_route():
     try:
         turmas = turmas_repo.listar_todas_turmas()
 
-        # Se não houver turmas, retorna uma lista vazia com status 200
         if not turmas:
-            return jsonify([]), 200  # Retorna uma lista vazia
+            return jsonify([]), 200 
 
-        # Caso contrário, retorna as turmas
         return jsonify([turma.to_dict() for turma in turmas if turma is not None]), 200
 
     except ValueError:

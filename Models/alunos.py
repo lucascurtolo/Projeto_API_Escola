@@ -6,13 +6,13 @@ class Alunos_Repository:
     def __init__(self):
         pass
 
-    def criar_aluno(self, nome, idade, turma_id=None):
+    def criar_aluno(self,id, nome, idade, turma_id=None):
         try:
             aluno_existente = Alunos.query.filter_by(id=id).first()
             if aluno_existente:
                 raise ValueError("Aluno com este id já existe.")
 
-            novo_aluno = Alunos(nome=nome, idade=idade, turma_id=turma_id)
+            novo_aluno = Alunos(id =id, nome=nome, idade=idade, turma_id=turma_id)
             db.session.add(novo_aluno)
             db.session.commit()
             return novo_aluno

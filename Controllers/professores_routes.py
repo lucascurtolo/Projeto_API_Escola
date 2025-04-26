@@ -8,8 +8,10 @@ professores_repo = Professores_Repository()
 def criar_professor_route():
     data = request.get_json()
     try:
-        professor = Professores(**data)
-        professores_repo.criar_professor(professor)
+        id = data["id"]
+        nome = data["nome"]
+        disciplina = data["disciplina"]
+        professor = professores_repo.criar_professor(id, nome, disciplina)
         return jsonify(professor.to_dict()), 201
     except ValueError as e:
         return jsonify({"erro": str(e)}), 400
