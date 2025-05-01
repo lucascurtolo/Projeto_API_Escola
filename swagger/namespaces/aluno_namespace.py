@@ -27,6 +27,11 @@ class AlunosResource(Resource):
     def get(self):
         return listar_todos_alunos()
     
+    
+    def delete(self):
+        excluir_todos_alunos()
+        return {"message": "Alunos excluídos"}, 200
+    
     @alunos_ns.expect(alunos_model)
     def post(self):
         data = alunos_ns.payload
