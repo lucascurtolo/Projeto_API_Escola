@@ -1,5 +1,5 @@
 from Config import create_app, db
-from swagger.swagger_config import configure_swagger  # Importa a função para configurar o Swagger
+from swagger.swagger_config import configure_swagger
 
 # Criação do app
 app = create_app()
@@ -7,7 +7,6 @@ app = create_app()
 # Configura o Swagger
 configure_swagger(app)
 
-# Criação das tabelas do banco
 try:
     with app.app_context():
         db.create_all()  # Cria as tabelas no banco de dados

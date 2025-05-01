@@ -1,6 +1,12 @@
-from swagger import api
-from swagger.namespaces.aluno_namespace import alunos_ns
+# swagger/swagger_config.py
+
+from swagger.namespaces import api
+from swagger.namespaces.aluno_namespace import api as alunos_api
+# importe mais namespaces conforme necessário
 
 def configure_swagger(app):
-    api.init_app(app)
-    api.add_namespace(alunos_ns, path="/alunos")
+    api.init_app(app)  # associa o app Flask à instância da API
+
+    # Registra os namespaces aqui
+    api.add_namespace(alunos_api)
+   

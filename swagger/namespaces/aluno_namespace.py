@@ -1,10 +1,11 @@
 from flask_restx import Namespace, Resource, fields
-from Models.alunos import (
-    criar_aluno, listar_aluno, listar_todos_alunos,
-    atualizar_aluno, excluir_aluno, excluir_todos_alunos
-)
+from Models.alunos import Alunos_Repository
+aluno_repo = Alunos_Repository()
 
 alunos_ns = Namespace("alunos", description="Operações relacionadas aos alunos")
+
+# Exporta o namespace com o nome 'api'
+api = alunos_ns
 
 alunos_model = alunos_ns.model("Aluno", {
     "nome": fields.String(required=True, description="Nome do Aluno"),
