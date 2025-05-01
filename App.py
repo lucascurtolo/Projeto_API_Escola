@@ -1,6 +1,12 @@
 from Config import create_app, db
+from swagger.swagger_config import configure_swagger
+from flask import Flask
 
 app = create_app()
+
+app = Flask(__name__)
+
+configure_swagger(app)
 
 try:
     with app.app_context():
@@ -15,3 +21,7 @@ if __name__ == "__main__":
         port=app.config["PORT"],
         debug=app.config["DEBUG"]
     )
+
+
+
+    

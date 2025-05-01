@@ -13,8 +13,8 @@ class Testes(unittest.TestCase):
     def tearDown(self):
         """Limpa o banco de dados após cada teste"""
         with self.app.app_context():
-            db.session.remove()  # Remove a sessão atual
-            db.drop_all()  # Remove as tabelas
+            db.session.remove()
+            db.drop_all() 
 
     def test_0_alunos_retorna_lista(self):
         response = self.client.get('/alunos')
