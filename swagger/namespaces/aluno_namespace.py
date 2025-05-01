@@ -1,20 +1,22 @@
 from flask_restx import Namespace, Resource, fields
-from Models.alunos import criar_aluno, listar_aluno, listar_todos_alunos, atualizar_aluno, excluir_aluno, excluir_todos_alunos
+from Models.alunos import (
+    criar_aluno, listar_aluno, listar_todos_alunos,
+    atualizar_aluno, excluir_aluno, excluir_todos_alunos
+)
 
-alunos_ns = Namespace("alunos", description= "Operações relacionadas aos alunos")
+alunos_ns = Namespace("alunos", description="Operações relacionadas aos alunos")
 
 alunos_model = alunos_ns.model("Aluno", {
-    "nome": fields.String(required= True, description= "Nome do Aluno"),
-    "idade": fields.Integer(required= True, description= "Idade"),
-    "turma_id": fields.Integer(required= True, description= "ID da Turma")
+    "nome": fields.String(required=True, description="Nome do Aluno"),
+    "idade": fields.Integer(required=True, description="Idade"),
+    "turma_id": fields.Integer(required=True, description="ID da Turma")
 })
 
-
-alunos_output_model = alunos_ns.model("AlunosOutput",{
+alunos_output_model = alunos_ns.model("AlunosOutput", {
     "id": fields.Integer(description="ID aluno"),
-    "nome": fields.String(description= "Nome do aluno"),
-    "idade": fields.Integer(description= "Idade do aluno"),
-    "turma_id": fields.Integer(description= "ID da turma associada")
+    "nome": fields.String(description="Nome do aluno"),
+    "idade": fields.Integer(description="Idade do aluno"),
+    "turma_id": fields.Integer(description="ID da turma associada")
 })
 
 
@@ -31,7 +33,7 @@ class AlunosResource(Resource):
         return response, status_code
     
 
-@alunos_ns.route("</int:id>")
+@alunos_ns.route("/<int:id>")  # <- corrigido aqui
 class AlunoIdResource(Resource):
     @alunos_ns.marshal_with(alunos_output_model)
     def get(self, id):
@@ -45,6 +47,4 @@ class AlunoIdResource(Resource):
     
     def delete(self, id):
         excluir_aluno(id)
-        return{"message": "Aluno excluído"}, 200
-
-
+        return {"message": "Aluno excluído"}, 200
