@@ -1,2 +1,4 @@
-# wsgi.py
-from App import app  # Importa sua aplicação Flask
+from App import app  # Importa a aplicação Flask
+
+if __name__ == "__main__":
+    app.run()  # Opcional para testes locais
