@@ -3,7 +3,6 @@ from Models.professores import Professores_Repository
 professores_repo = Professores_Repository()
 
 professores_ns = Namespace("professores", description="Operações relacionadas a professor")
-
 api = professores_ns
 
 professores_model = professores_ns.model("Professor",{
