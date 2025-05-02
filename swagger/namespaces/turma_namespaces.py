@@ -11,7 +11,7 @@ turmas_model = turmas_ns.model("Turma", {
     "professor_id": fields.String(required = True, description= "Id do Professor da turma")
 })
 
-turmas_outout_model = turmas_ns.model("ProfessoresOutput", {
+turmas_output_model = turmas_ns.model("TurmasOutput", {
     "id": fields.Integer(description="Id da turma"),
     "nome": fields.String(description="Nome da turma"),
     "turma_id": fields.Integer(description= "Id do professor da turma")
@@ -20,7 +20,7 @@ turmas_outout_model = turmas_ns.model("ProfessoresOutput", {
 
 @turmas_ns.route("/")
 class TurmaResource(Resource):
-    @turmas_ns.marshal_with(turmas_outout_model)
+    @turmas_ns.marshal_with(turmas_output_model)
     def get(self):
         return listar_todos_alunos()
     
@@ -36,7 +36,7 @@ class TurmaResource(Resource):
 
 @turmas_ns.route("/<int:id>")
 class TurmaIdResource(Resource):
-    @turmas_ns.marshal_list_with(turmas_outout_model)
+    @turmas_ns.marshal_list_with(turmas_output_model)
     def get(self,id):
         return listar_turma()
     
