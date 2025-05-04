@@ -1,28 +1,31 @@
 from flask import Blueprint, request, jsonify
-from Models.alunos import AlunosModel
-from Models.alunos import AlunosModel, Alunos
+from Models.alunos import Alunos_Repository
+from Models.alunos import Alunos_Repository, Alunos
 
 
 alunos_blueprint = Blueprint('alunos', __name__)
-alunos_repo = AlunosModel()
+alunos_repo = Alunos_Repository()
 
 @alunos_blueprint.route("/", methods=["POST"])
 def criar_aluno_route():
     data = request.get_json()
     try:
-        aluno = Alunos(**data)
-        alunos_repo.criar_aluno(aluno)
+        id = data["id"]
+        nome = data["nome"]
+        idade =  data["idade"]
+        turma_id = data["turma_id"]
+        aluno = alunos_repo.criar_aluno(id, nome, idade, turma_id)
         return jsonify(aluno.to_dict()), 201
-    except ValueError as e:
+    except (ValueError, KeyError) as e:
         return jsonify({"erro": str(e)}), 400
+
 
 @alunos_blueprint.route("/<int:id>", methods=["GET"])
 def listar_aluno_route(id):
-    try:
         aluno = alunos_repo.listar_aluno(id)
+        if aluno is None:
+            return jsonify({"message": "Aluno não encontrado"}), 404
         return jsonify(aluno.to_dict())
-    except ValueError:
-        return jsonify({"message": "Aluno não encontrado"}), 404
 
 @alunos_blueprint.route("", methods=["GET"])
 def listar_todos_alunos_route():
@@ -40,13 +43,14 @@ def excluir_aluno_route(id):
     except ValueError:
         return jsonify({"message": "Aluno não encontrado"}), 404
 
-@alunos_blueprint.route("", methods=["DELETE"])
+@alunos_blueprint.route("/", methods=["DELETE"])
 def excluir_todos_alunos_route():
     try:
-        alunos_repo.excluir_todos_alunos()
-        return jsonify({"mensagem": "Alunos removidos com sucesso"}), 204
-    except ValueError:
-        return jsonify({"message": "Alunos não encontrados"}), 404
+        alunos = alunos_repo.excluir_todos_alunos()
+        return '', 204
+    except ValueError as e:
+        return jsonify({"erro": str(e)}), 404
+
 
 @alunos_blueprint.route("/<int:id>", methods=["PUT"])
 def atualizar_aluno_route(id):
@@ -59,4 +63,5 @@ def atualizar_aluno_route(id):
         return jsonify(aluno.to_dict())
     except ValueError:
         return jsonify({"message": "Aluno não encontrado"}), 404
+
     
