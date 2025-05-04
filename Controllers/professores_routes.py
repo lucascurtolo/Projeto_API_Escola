@@ -1,15 +1,17 @@
 from flask import Blueprint, request, jsonify
-from Models.professores import ProfessoresModel, Professores
+from Models.professores import Professores_Repository, Professores
 
 professores_blueprint = Blueprint('professores', __name__)
-professores_repo = ProfessoresModel()
+professores_repo = Professores_Repository()
 
 @professores_blueprint.route("/", methods=["POST"])
 def criar_professor_route():
     data = request.get_json()
     try:
-        professor = Professores(**data)
-        professores_repo.criar_professor(professor)
+        id = data["id"]
+        nome = data["nome"]
+        disciplina = data["disciplina"]
+        professor = professores_repo.criar_professor(id, nome, disciplina)
         return jsonify(professor.to_dict()), 201
     except ValueError as e:
         return jsonify({"erro": str(e)}), 400
