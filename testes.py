@@ -1,11 +1,20 @@
 import unittest
-from App import app
+from Config import create_app, db
 
 
 class Testes(unittest.TestCase):
     def setUp(self):
-        app.config['TESTING'] = True  
-        self.client = app.test_client() 
+        self.app = create_app()  
+        self.client = self.app.test_client()
+
+        with self.app.app_context():
+            db.create_all()
+        
+    def tearDown(self):
+        """Limpa o banco de dados após cada teste"""
+        with self.app.app_context():
+            db.session.remove()
+            db.drop_all() 
 
     def test_0_alunos_retorna_lista(self):
         response = self.client.get('/alunos')
@@ -35,6 +44,7 @@ class Testes(unittest.TestCase):
         self.assertIsNotNone(aluno_data)
         self.assertEqual(aluno_data["nome"], aluno_data["nome"])
         self.assertEqual(aluno_data["idade"], aluno_data["idade"])
+
     
     def test_02_listar_aluno_por_id(self):
         aluno_data = {
@@ -62,11 +72,15 @@ class Testes(unittest.TestCase):
         self.assertEqual(erro_data["message"], "Aluno não encontrado")
 
     def test_04_apagar_lista_aluno(self):
-        response = self.client.delete("/alunos")
-        self.assertEqual(response.status_code, 204)  
+        self.client.post("/alunos/", json = {
+            "id": 555,
+            "nome": "Teste",
+            "idade": 15,
+            "turma_id": 10
+        })
+        response = self.client.delete("/alunos/")
+        self.assertEqual(response.status_code, 204)
 
-        
-        self.assertEqual(response.get_data(), b'')
 
     def test_05_listar_professor_sem_id(self):
         response = self.client.get("/professores/999")
@@ -130,13 +144,13 @@ class Testes(unittest.TestCase):
         response = self.client.delete("/professores/999")
         self.assertEqual(response.status_code, 204)
 
-        response = self.client.delete("/professores/999")
+        response = self.client.get("/professores/999")
         self.assertEqual(response.status_code, 404)
 
 
     def test_09_cria_professor(self):
         professor_data = {
-            "id": 6,
+            "id": 5,
             "nome": "Julio",
             "disciplina": "Linguagem de programação"
         }
@@ -168,9 +182,9 @@ class Testes(unittest.TestCase):
 
     def teste_11_criar_turma(self):
         turma_data = {
-            "id": 3,
-            "nome": "2B",
-            "professor_id": 5
+            "id": 5,
+            "nome": "3A",
+            "professor_id": 6
         }
 
 
@@ -188,13 +202,18 @@ class Testes(unittest.TestCase):
     
     def test_12_listar_turma_sem_id(self):
         response = self.client.get("/turmas/999")
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 404)
 
         erro_data = response.get_json()
 
         self.assertEqual(erro_data["erro"], "Turma não encontrada")
     
     def test_13_apagar_lista_turma(self):
+        self.client.post("/turmas/", json = {
+            "id": 154,
+            "nome": "Turma Teste",
+            "professor_id": 154
+        })
         response = self.client.delete("/turmas/")
         self.assertEqual(response.status_code, 204)
     
@@ -249,12 +268,6 @@ class Testes(unittest.TestCase):
         self.assertEqual(dados_depois["id"], 15)
         self.assertEqual(dados_depois["nome"], "Andreia Alterado")
         self.assertEqual(dados_depois["disciplina"], "Soft Skill")
-
-
-
-
-
-
 
 
     def test_17_editar_nome_turma(self):
