@@ -25,17 +25,17 @@ alunos_output_model = alunos_ns.model("AlunosOutput", {
 class AlunosResource(Resource):
     @alunos_ns.marshal_list_with(alunos_output_model)
     def get(self):
-        return listar_todos_alunos()
+        return aluno_repo.listar_todos_alunos()
     
     
     def delete(self):
-        excluir_todos_alunos()
+        aluno_repo.excluir_todos_alunos()
         return {"message": "Alunos excluídos"}, 200
     
     @alunos_ns.expect(alunos_model)
     def post(self):
         data = alunos_ns.payload
-        response, status_code = criar_aluno(data)
+        response, status_code = aluno_repo.criar_aluno(data)
         return response, status_code
     
 
@@ -43,14 +43,14 @@ class AlunosResource(Resource):
 class AlunoIdResource(Resource):
     @alunos_ns.marshal_with(alunos_output_model)
     def get(self, id):
-        return listar_aluno(id)
+        return aluno_repo.listar_aluno(id)
     
     @alunos_ns.expect(alunos_model)
     def put(self, id):
         data = alunos_ns.payload
-        atualizar_aluno(id, data)
+        aluno_repo.atualizar_aluno(id, data)
         return data, 200
     
     def delete(self, id):
-        excluir_aluno(id)
+        aluno_repo.excluir_aluno(id)
         return {"message": "Aluno excluído"}, 200

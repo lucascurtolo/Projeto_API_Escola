@@ -22,30 +22,30 @@ turmas_output_model = turmas_ns.model("TurmasOutput", {
 class TurmaResource(Resource):
     @turmas_ns.marshal_with(turmas_output_model)
     def get(self):
-        return listar_todos_alunos()
+        return turmas_repo.listar_todas_turmas()
     
     def delete(self):
-        excluir_todas_turmas()
+        turmas_repo.excluir_todas_turmas()
         return {"message": "Turmas excluídas"}
     
     @turmas_ns.expect(turmas_model)
     def post(self):
         data = turmas_ns.payload
-        response, status_code = criar_turma(data)
+        response, status_code = turmas_repo.criar_turma(data)
         return response, status_code
 
 @turmas_ns.route("/<int:id>")
 class TurmaIdResource(Resource):
     @turmas_ns.marshal_list_with(turmas_output_model)
     def get(self,id):
-        return listar_turma()
+        return turmas_repo.listar_turma()
     
     @turmas_ns.expect(turmas_model)
     def put(self,id):
         data = turmas_ns.payload
-        atualizar_turma(id, data)
+        turmas_repo.atualizar_turma(id, data)
         return data, 200
     
     def delete(self,id):
-        excluir_turma(id)
+        turmas_repo.excluir_turma(id)
         return {"message": "Turmas excluídas"}, 200

@@ -21,30 +21,30 @@ professores_output_model = professores_ns.model("ProfessoresOutput",{
 class ProfessoresResource(Resource):
     @professores_ns.marshal_list_with(professores_output_model)
     def get(self):
-        return listar_todos_professores()
+        return professores_repo.listar_todos_professores()
     
     def delete(self):
-        excluir_todos_professores()
+        professores_repo.excluir_todos_professores()
         return {"message": "Professores excluídos"}
     
     @professores_ns.expect(professores_model)
     def post(self):
         data = professores_ns.payload
-        response, status_code = criar_professor(data)
+        response, status_code = professores_repo.criar_professor(data)
         return response, status_code
     
 @professores_ns.route("/<int:id>")
 class ProfessorIdResource(Resource):
     @professores_ns.marshal_list_with(professores_output_model)
     def get(self, id):
-        return listar_professor()
+        return professores_repo.listar_professor()
     
     @professores_ns.expect(professores_model)
     def put(self, id):
         data = professores_ns.payload
-        atualizar_professor(id, data)
+        professores_repo.atualizar_professor(id, data)
         return data, 200
     
     def delete(self, id):
-        excluir_professores(id)
+        professores_repo.excluir_professores(id)
         return {"message": "Professor excluído"}, 200
