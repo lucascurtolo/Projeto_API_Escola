@@ -21,7 +21,8 @@ professores_output_model = professores_ns.model("ProfessoresOutput",{
 class ProfessoresResource(Resource):
     @professores_ns.marshal_list_with(professores_output_model)
     def get(self):
-        return professores_repo.listar_todos_professores()
+       return professores_repo.listar_todos_professores()
+            
     
     def delete(self):
         professores_repo.excluir_todos_professores()
@@ -30,20 +31,31 @@ class ProfessoresResource(Resource):
     @professores_ns.expect(professores_model)
     def post(self):
         data = professores_ns.payload
-        response, status_code = professores_repo.criar_professor(data)
-        return response, status_code
+        nome = data['nome']
+        disciplina = data['disciplina']
+
+        professor = professores_repo.criar_professor(id=None ,nome=nome, disciplina=disciplina)
+
+        return professor.to_dict(), 201
     
 @professores_ns.route("/<int:id>")
 class ProfessorIdResource(Resource):
     @professores_ns.marshal_list_with(professores_output_model)
     def get(self, id):
-        return professores_repo.listar_professor()
+        professor = professores_repo.listar_professor(id)
+    
+        if professor:
+            return professor.to_dict(), 200
+        else:
+            return {'erro': 'Professor não encontrado'}, 404
     
     @professores_ns.expect(professores_model)
     def put(self, id):
         data = professores_ns.payload
-        professores_repo.atualizar_professor(id, data)
-        return data, 200
+        nome = data["nome"]
+        disciplina = data["disciplina"]
+        professor =  professores_repo.atualizar_professores(id=id, nome=nome, disciplina=disciplina)
+        return professor.to_dict(), 200
     
     def delete(self, id):
         professores_repo.excluir_professores(id)

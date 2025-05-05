@@ -8,13 +8,13 @@ api = turmas_ns
 
 turmas_model = turmas_ns.model("Turma", {
     "nome": fields.String(required = True, description= "Nome da Turma"),
-    "professor_id": fields.String(required = True, description= "Id do Professor da turma")
+    "professor_id": fields.Integer(required = True, description= "Id do Professor da turma")
 })
 
 turmas_output_model = turmas_ns.model("TurmasOutput", {
     "id": fields.Integer(description="Id da turma"),
     "nome": fields.String(description="Nome da turma"),
-    "turma_id": fields.Integer(description= "Id do professor da turma")
+    "professor_id": fields.Integer(description= "Id do professor da turma")
 })
 
 
@@ -31,20 +31,30 @@ class TurmaResource(Resource):
     @turmas_ns.expect(turmas_model)
     def post(self):
         data = turmas_ns.payload
-        response, status_code = turmas_repo.criar_turma(data)
-        return response, status_code
+        nome = data['nome']
+        professor_id = data['professor_id']
+
+        turma = turmas_repo.criar_turma(id=None ,nome=nome, professor_id=professor_id)
+
+        return turma.to_dict(), 201
 
 @turmas_ns.route("/<int:id>")
 class TurmaIdResource(Resource):
     @turmas_ns.marshal_list_with(turmas_output_model)
     def get(self,id):
-        return turmas_repo.listar_turma()
+        turma = turmas_repo.listar_turma(id)
+        if turma:
+            return turma.to_dict(), 200
+        else:
+            return {"message": "Turma não encontrada"}, 404
     
-    @turmas_ns.expect(turmas_model)
-    def put(self,id):
+    @turmas_ns.expect(turmas_model) 
+    def put(self, id):
         data = turmas_ns.payload
-        turmas_repo.atualizar_turma(id, data)
-        return data, 200
+        nome = data["nome"]
+        professor_id = data["professor_id"]
+        turma =  turmas_repo.atualizar_turma(id=id, nome=nome, professor_id=professor_id)
+        return turma.to_dict(), 200
     
     def delete(self,id):
         turmas_repo.excluir_turma(id)

@@ -34,9 +34,15 @@ class AlunosResource(Resource):
     
     @alunos_ns.expect(alunos_model)
     def post(self):
+
         data = alunos_ns.payload
-        response, status_code = aluno_repo.criar_aluno(data)
-        return response, status_code
+        nome = data['nome']
+        idade = data['idade']
+        turma_id = data['turma_id']
+
+        aluno = aluno_repo.criar_aluno(id=None,nome=nome, idade=idade, turma_id=turma_id)
+
+        return aluno.to_dict(), 201
     
 
 @alunos_ns.route("/<int:id>")  # <- corrigido aqui
@@ -48,8 +54,11 @@ class AlunoIdResource(Resource):
     @alunos_ns.expect(alunos_model)
     def put(self, id):
         data = alunos_ns.payload
-        aluno_repo.atualizar_aluno(id, data)
-        return data, 200
+        nome = data["nome"]
+        idade = data["idade"]
+        turma_id = data["turma_id"]
+        aluno =  aluno_repo.atualizar_aluno(id=id, nome=nome,idade=idade, turma_id=turma_id)
+        return aluno.to_dict(), 200
     
     def delete(self, id):
         aluno_repo.excluir_aluno(id)
