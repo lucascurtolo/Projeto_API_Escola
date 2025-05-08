@@ -7,13 +7,15 @@ api = professores_ns
 
 professores_model = professores_ns.model("Professor",{
     "nome": fields.String(required = True, description= "Nome do Professor"),
-    "disciplina": fields.String(required = True, description= "Disciplina do Professor")
+    "disciplina": fields.String(required = True, description= "Disciplina do Professor"),
+    "idade": fields.Integer(required =True, description= "Idade do Professor")
 })
 
 professores_output_model = professores_ns.model("ProfessoresOutput",{
     "id": fields.Integer(description= "ID do Professor"),
     "nome": fields.String(description="Nome do Professor"),
-    "disciplina": fields.String(description="Nome da Disciplina")
+    "disciplina": fields.String(description="Nome da Disciplina"),
+    "idade": fields.Integer(description="Idade do Professor")
 })
 
 
@@ -33,8 +35,9 @@ class ProfessoresResource(Resource):
         data = professores_ns.payload
         nome = data['nome']
         disciplina = data['disciplina']
+        idade = data['idade']
 
-        professor = professores_repo.criar_professor(id=None ,nome=nome, disciplina=disciplina)
+        professor = professores_repo.criar_professor(id=None ,nome=nome, disciplina=disciplina, idade=idade)
 
         return professor.to_dict(), 201
     
@@ -54,7 +57,8 @@ class ProfessorIdResource(Resource):
         data = professores_ns.payload
         nome = data["nome"]
         disciplina = data["disciplina"]
-        professor =  professores_repo.atualizar_professores(id=id, nome=nome, disciplina=disciplina)
+        idade = data["idade"]
+        professor =  professores_repo.atualizar_professores(id=id, nome=nome, disciplina=disciplina, idade=idade)
         return professor.to_dict(), 200
     
     def delete(self, id):
