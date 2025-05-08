@@ -68,8 +68,25 @@ def atualizar_aluno_route(id):
         nome = data.get("nome")
         idade = data.get("idade")
         turma_id = data.get("turma_id")
-        aluno = alunos_repo.atualizar_aluno(id, nome, idade, turma_id)
+        data_nascimento_str = data.get("data_nascimento")
+        nota_primeiro_semestre = data.get("nota_primeiro_semestre")
+        nota_segundo_semestre = data.get("nota_segundo_semestre")
+        media_final = data.get("media_final")
+
+        # ⚠️ Converte string para date
+        data_nascimento = None
+        if data_nascimento_str:
+            try:
+                data_nascimento = datetime.strptime(data_nascimento_str, "%Y-%m-%d").date()
+            except ValueError:
+                data_nascimento = datetime.strptime(data_nascimento_str, "%a, %d %b %Y %H:%M:%S GMT").date()
+
+        aluno = alunos_repo.atualizar_aluno(
+            id, nome, idade, turma_id, data_nascimento,
+            nota_primeiro_semestre, nota_segundo_semestre, media_final
+        )
         return jsonify(aluno.to_dict())
+
     except ValueError:
         return jsonify({"message": "Aluno não encontrado"}), 404
 

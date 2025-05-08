@@ -11,7 +11,8 @@ def criar_professor_route():
         id = data["id"]
         nome = data["nome"]
         disciplina = data["disciplina"]
-        professor = professores_repo.criar_professor(id, nome, disciplina)
+        idade = data["idade"]
+        professor = professores_repo.criar_professor(id, nome, disciplina, idade)
         return jsonify(professor.to_dict()), 201
     except ValueError as e:
         return jsonify({"erro": str(e)}), 400
