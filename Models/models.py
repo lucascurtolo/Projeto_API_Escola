@@ -1,4 +1,6 @@
 from Config import db
+from datetime import date
+
 
 class Professores(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -62,6 +64,11 @@ class Alunos(db.Model):
         self.nota_primeiro_semestre = nota_primeiro_semestre
         self.nota_segundo_semestre = nota_segundo_semestre
         self.media_final = media_final
+
+    @staticmethod
+    def calcular_idade(data_nascimento):
+        hoje = date.today()
+        return hoje.year - data_nascimento.year - ((hoje.month, hoje.day) < (data_nascimento.month, data_nascimento.day))
 
     def to_dict(self):
         return {

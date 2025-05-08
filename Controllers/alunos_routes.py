@@ -1,6 +1,8 @@
 from flask import Blueprint, request, jsonify
 from Models.alunos import Alunos_Repository
 from Models.alunos import Alunos_Repository, Alunos
+from datetime import datetime
+from Models.models import Alunos
 
 
 alunos_blueprint = Blueprint('alunos', __name__)
@@ -12,12 +14,19 @@ def criar_aluno_route():
     try:
         id = data["id"]
         nome = data["nome"]
-        idade =  data["idade"]
+        data_nascimento_str = data["data_nascimento"] 
         turma_id = data["turma_id"]
-        aluno = alunos_repo.criar_aluno(id, nome, idade, turma_id)
+        nota_primeiro_semestre = data["nota_primeiro_semestre"]
+        nota_segundo_semestre = data["nota_segundo_semestre"]
+
+        
+        aluno = alunos_repo.criar_aluno(id, nome, data_nascimento_str, nota_primeiro_semestre, nota_segundo_semestre, turma_id)
+        
+        
         return jsonify(aluno.to_dict()), 201
     except (ValueError, KeyError) as e:
         return jsonify({"erro": str(e)}), 400
+
 
 
 @alunos_blueprint.route("/<int:id>", methods=["GET"])
