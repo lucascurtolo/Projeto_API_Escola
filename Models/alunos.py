@@ -58,23 +58,24 @@ class Alunos_Repository:
     def listar_todos_alunos(self):
         return Alunos.query.all()
 
-    def atualizar_aluno(self, id, nome=None, idade=None, turma_id=None, data_nascimento=None, nota_primeiro_semestre=None, nota_segundo_semestre=None, media_final=None):
+    def atualizar_aluno(self, id, nome=None, idade=None, turma_id=None, data_nascimento=None,
+                        nota_primeiro_semestre=None, nota_segundo_semestre=None, media_final=None):
         aluno = Alunos.query.filter_by(id=id).first()
 
         if aluno:
-            if nome:
+            if nome is not None:
                 aluno.nome = nome
-            if idade:
+            if idade is not None:
                 aluno.idade = idade
-            if turma_id:
+            if turma_id is not None:
                 aluno.turma_id = turma_id
-            if data_nascimento:
+            if data_nascimento is not None:
                 aluno.data_nascimento = data_nascimento
-            if nota_primeiro_semestre:
+            if nota_primeiro_semestre is not None:
                 aluno.nota_primeiro_semestre = nota_primeiro_semestre
-            if nota_segundo_semestre:
+            if nota_segundo_semestre is not None:
                 aluno.nota_segundo_semestre = nota_segundo_semestre
-            if media_final:
+            if media_final is not None:
                 aluno.media_final = media_final
 
             db.session.commit()
