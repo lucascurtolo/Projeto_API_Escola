@@ -5,13 +5,13 @@ class Professores_Repository:
     def __init__(self):
         pass
     
-    def criar_professor(self, id, nome, disciplina):
+    def criar_professor(self, id, nome, disciplina, idade):
         try:
             id_existente = Professores.query.filter_by(id=id).first()
             if id_existente:
                 raise ValueError("Professor com este id já existe")
             
-            novo_professor = Professores(id = id, nome = nome, disciplina= disciplina)
+            novo_professor = Professores(id = id, nome = nome, disciplina= disciplina, idade=idade)
             db.session.add(novo_professor)
             db.session.commit()
             return novo_professor
@@ -31,7 +31,7 @@ class Professores_Repository:
         return Professores.query.all()
 
 
-    def atualizar_professores(self, id, nome=None, disciplina=None):
+    def atualizar_professores(self, id, nome=None, disciplina=None, idade = None):
         professor = Professores.query.filter_by(id=id).first()
         if not professor:
             raise ValueError("Professor não encontrado.")
@@ -39,6 +39,8 @@ class Professores_Repository:
             professor.nome = nome
         if disciplina:
             professor.disciplina = disciplina
+        if idade:
+            professor.idade = idade
         db.session.commit()
         return professor
 
