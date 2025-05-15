@@ -76,7 +76,7 @@ class Alunos(db.Model):
             "nome": self.nome,
             "idade": self.idade,
             "turma_id": self.turma_id,
-            "data_nascimento": self.data_nascimento,
+            'data_nascimento': self.data_nascimento.isoformat() if self.data_nascimento else None,
             "nota_primeiro_semestre": self.nota_primeiro_semestre,
             "nota_segundo_semestre": self.nota_segundo_semestre,
             "media_final": self.media_final
