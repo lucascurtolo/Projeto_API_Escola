@@ -20,3 +20,21 @@ class AtividadeServiceClient:
             return response.json()
         except requests.RequestException:
             return None
+
+    @staticmethod
+    def get_atividade_para_professor(id_atividade, id_professor):
+        """
+        Retorna a atividade filtrada para um professor específico, ocultando 'respostas'
+        se o professor não leciona a disciplina.
+        """
+        try:
+            response = requests.get(
+                f"{ATIVIDADE_API_URL}/{id_atividade}/professor/{id_professor}"
+            )
+            response.raise_for_status()
+            return response.json()
+        except requests.RequestException:
+            return None
+        
+
+        
