@@ -12,9 +12,6 @@ def professores():
 def alunos():
     return jsonify(PessoaServiceClient.get_alunos())
 
-@api_gateway_bp.route('/leciona/<int:id_professor>/<int:id_disciplina>')
-def leciona(id_professor, id_disciplina):
-    return jsonify({'leciona': PessoaServiceClient.verificar_leciona(id_professor, id_disciplina)})
 
 @api_gateway_bp.route('/atividades')
 def atividades():
