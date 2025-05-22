@@ -66,6 +66,3 @@ class Turmas_Repository:
 
 class NoData(Exception):
     pass
-        
-
-        
