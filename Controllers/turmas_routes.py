@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from Models.turmas import Turmas_Repository, Turmas
 
+
 turmas_blueprint = Blueprint('turmas', __name__)
 turmas_repo = Turmas_Repository()
 
@@ -83,10 +84,11 @@ def atualizar_turma_route(id):
 
 @turmas_blueprint.route('/leciona/<int:professor_id>/<int:id_disciplina>', methods=['GET'])
 def verificar_se_leciona(professor_id, id_disciplina):
-    turmas = Turmas.query.filter_by(professor_id=professor_id).all()
+    turmas = Turmas.query.filter_by(professor_id=professor_id, id_disciplina=id_disciplina).all()
 
-    for turma in turmas:
-        if hasattr(turma, 'disciplina') and turma.disciplina == id_disciplina:
-            return jsonify({'isok': True, 'leciona': True})
+    if turmas:
+        return jsonify({'isok': True, 'leciona': True})
 
     return jsonify({'isok': True, 'leciona': False})
+
+
