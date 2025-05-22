@@ -8,7 +8,8 @@ api = turmas_ns
 
 turmas_model = turmas_ns.model("Turma", {
     "nome": fields.String(required = True, description= "Nome da Turma"),
-    "professor_id": fields.Integer(required = True, description= "Id do Professor da turma")
+    "professor_id": fields.Integer(required = True, description= "Id do Professor da turma"),
+    "id_disciplina": fields.Integer(required=True, description="Id da Disciplina da turma")
 })
 
 turmas_output_model = turmas_ns.model("TurmasOutput", {
@@ -50,10 +51,11 @@ class TurmaIdResource(Resource):
             return {"message": "Turma não encontrada"}, 404
     
     @turmas_ns.expect(turmas_model) 
-    def put(self, id, id_disciplina):
+    def put(self, id):
         data = turmas_ns.payload
         nome = data["nome"]
         professor_id = data["professor_id"]
+        id_disciplina = data.get("id_disciplina")
         turma =  turmas_repo.atualizar_turma(id=id, nome=nome, professor_id=professor_id, id_disciplina=id_disciplina)
         return turma.to_dict(), 200
     
