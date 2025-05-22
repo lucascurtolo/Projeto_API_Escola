@@ -5,12 +5,12 @@ class Turmas_Repository:
     def __init__(self):
         pass
 
-    def criar_turma(self, id, nome, professor_id):
+    def criar_turma(self, id, nome, professor_id, id_disicplina):
         try:
             turma_existente = Turmas.query.filter_by(id = id).first()
             if turma_existente:
                 raise ValueError("Turma já existe")
-            nova_turma = Turmas(id = id, nome = nome, professor_id = professor_id)
+            nova_turma = Turmas(id = id, nome = nome, professor_id = professor_id, id_disciplina=id_disicplina)
             db.session.add(nova_turma)
             db.session.commit()
             return nova_turma
@@ -29,13 +29,15 @@ class Turmas_Repository:
     def listar_todas_turmas(self):
         return Turmas.query.all()
 
-    def atualizar_turma(self, id, nome=None, professor_id=None):
+    def atualizar_turma(self, id, nome=None, professor_id=None, id_disciplina=None):
         turma = Turmas.query.filter_by(id=id).first() 
         if turma:
             if nome:
                 turma.nome = nome  
             if professor_id:
                 turma.professor_id = professor_id  
+            if id_disciplina:
+                turma.id_disciplina = id_disciplina
             db.session.commit() 
             return turma
         else:

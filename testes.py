@@ -214,7 +214,8 @@ class Testes(unittest.TestCase):
         turma_data = {
             "id": 5,
             "nome": "3A",
-            "professor_id": 6
+            "professor_id": 6,
+            "id_disciplina": 6
         }
 
 
@@ -225,6 +226,7 @@ class Testes(unittest.TestCase):
         self.assertEqual(resposta_json["id"], turma_data["id"])
         self.assertEqual(resposta_json["nome"], turma_data["nome"])
         self.assertEqual(resposta_json["professor_id"], turma_data["professor_id"])
+        self.assertEqual(resposta_json["id_disciplina"], turma_data["id_disciplina"])
 
         self.assertIsNotNone(turma_data)
         self.assertEqual(turma_data["nome"], turma_data["nome"])
@@ -242,7 +244,8 @@ class Testes(unittest.TestCase):
         self.client.post("/turmas/", json = {
             "id": 154,
             "nome": "Turma Teste",
-            "professor_id": 154
+            "professor_id": 154,
+            "id_disciplina": 5
         })
         response = self.client.delete("/turmas/")
         self.assertEqual(response.status_code, 204)
@@ -316,7 +319,7 @@ class Testes(unittest.TestCase):
 
 
     def test_17_editar_nome_turma(self):
-        response = self.client.post('/turmas/', json = {'nome': '3C', 'id': 10, 'professor_id': 15 })
+        response = self.client.post('/turmas/', json = {'nome': '3C', 'id': 10, 'professor_id': 15,  'id_disciplina': 8 })
         self.assertEqual(response.status_code, 201)
 
         r_antes = self.client.get('/turmas/10')

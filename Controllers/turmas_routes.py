@@ -11,7 +11,8 @@ def criar_turma_route():
         id = data["id"]
         nome = data["nome"]
         professor_id = data["professor_id"]
-        turma = turmas_repo.criar_turma(id, nome, professor_id)
+        id_disciplina =data["id_disciplina"]
+        turma = turmas_repo.criar_turma(id, nome, professor_id, id_disciplina)
         return jsonify(turma.to_dict()), 201
     except (ValueError, KeyError) as e:
         return jsonify({"erro": str(e)}), 400
@@ -78,3 +79,14 @@ def atualizar_turma_route(id):
         return jsonify(turma.to_dict()), 200
     except ValueError:
         return jsonify({"erro": "Turma não encontrada"}), 404
+    
+
+@turmas_blueprint.route('/leciona/<int:professor_id>/<int:id_disciplina>', methods=['GET'])
+def verificar_se_leciona(professor_id, id_disciplina):
+    turmas = Turmas.query.filter_by(professor_id=professor_id).all()
+
+    for turma in turmas:
+        if hasattr(turma, 'disciplina') and turma.disciplina == id_disciplina:
+            return jsonify({'isok': True, 'leciona': True})
+
+    return jsonify({'isok': True, 'leciona': False})

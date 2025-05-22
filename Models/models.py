@@ -29,19 +29,24 @@ class Turmas(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     nome = db.Column(db.String(100))
     professor_id = db.Column(db.Integer, db.ForeignKey('professores.id'))
+    id_disciplina = db.Column(db.Integer) 
 
     alunos = db.relationship("Alunos", backref="turma", lazy=True)
+    
 
-    def __init__(self, nome, professor_id, id=None):
+    def __init__(self, nome, professor_id, id_disciplina=None, id=None):
         self.id = id
         self.nome = nome
         self.professor_id = professor_id
+        self.id_disciplina = id_disciplina
+        
 
     def to_dict(self):
         return {
             "id": self.id,
             "nome": self.nome,
-            "professor_id": self.professor_id
+            "professor_id": self.professor_id,
+            "id_disciplina": self.id_disciplina
         }
 
 
