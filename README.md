@@ -217,9 +217,9 @@ docker-compose -f docker-compose.yml up -d
 
 Este projeto está sob a licença MIT. Veja o arquivo `LICENSE` para mais detalhes.
 
-## 👨‍💻 Autor
+## 👨‍💻 Autores
 
-**Lucas Curtolo** **Marcelo Augusto** **Eduardo Omena** **Carlos Eduardo** **Vinícius Gama**
+**Lucas Curtolo**   **Marcelo Augusto**   **Eduardo Omena**   **Carlos Eduardo**   **Vinícius Gama**
 - GitHub: [@lucascurtolo](https://github.com/lucascurtolo)
 
 ## 📞 Suporte
